@@ -6,6 +6,8 @@
     init: function(config) {
       this.$el = $('<canvas>')
         .addClass(config.name)
+        .width(config.width)
+        .height(config.height)
         .appendTo('.game-view'); // Probably need explicit width and height
 
       this.ctx = this.$el[0].getContext('2d');

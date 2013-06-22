@@ -22,6 +22,7 @@
     greetHumans: function() {
        // Needs to request how many max players so it can greet with
       // the right options
+      $('.welcome').slideDown('slow');
     },
 
 
