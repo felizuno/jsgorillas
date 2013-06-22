@@ -1,0 +1,47 @@
+App.init -> viewManager, dataManager
+  
+  dataManager.init -> modelManager, gameManager, playerManager
+    modelManager:
+      * models {}
+      * new ('type', config) 
+          > Player = Backbone Model
+          > Round = Backbone Model
+    playerManager:
+      * players []
+      * preferences {}
+      * addPlayer()
+      * removePlayer()
+      * doesAnybodyCareAbout()
+    gameManager.init -> simulator
+      * settings {}
+      * currentRound {}
+      * thePast [] // array of old rounds
+      * startNewGame ()
+      * saveGame ()
+      * resumeGame ()
+      * newRound ()
+      simulator:
+        * setGravity ()
+        * simulateThrow()
+
+
+  viewManager.init -> inputManager, canvasManager, styleManager
+    styleManager:
+      // can update less variables
+    inputManager:
+      // Should bind all static UI thats click/touchable
+      // Should add touchability to a canvas
+    canvasManager: -> animator
+      * canvases []
+
+
+
+
+
+
+
+
+Request = 1 handler per message
+Announcement = 0+ handlers per announcement
+
+Announcements should console log an error if no handler is found ('Announced foo, but nobody cared')
