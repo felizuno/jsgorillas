@@ -30,13 +30,21 @@ body {
   margin: 10% auto 0 auto;
   border: 4px solid #4f44f3;
   text-align: center;
+  box-shadow: 8px 8px 0 0 white;
   z-index: 10;
 
-  .start {
-    margin: 3em;
-    padding: 1em;
+  .playeroption {
+    display: inline-block;
+    margin: 3em 1em;
+    padding: 2em 6em;
     border-radius: 1em;
+    cursor: pointer;
     border: 4px solid #4fb7dd;
+
+    &.disabled {
+      color: #aaa;
+      border: 4px solid #aaa;
+    }
   }
 }
 //======================

@@ -17,6 +17,8 @@
           self[childName].init();
         }
       });
+
+      this.initFixedUI();
     },
 
     greetHumans: function() {
@@ -28,9 +30,10 @@
 
 ////////////////////////////////////////////////////
     initFixedUI: function() {
-      $('.start').click(function() {
-        App.newGame();
-        $('.welcome').hide();
+      var self = this;
+
+      $('.2p').click(function() {
+        self.announce('updatePlayerCount', 2);
       });
 
       $('.main-menu-button').click(function() {
