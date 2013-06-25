@@ -33,12 +33,16 @@
       var self = this;
 
       $('.2p').click(function() {
-        self.announce('updatePlayerCount', 2);
+        self.sendRequestFor('updatePlayerCount', 2).soICan(function(players) {
+          _.each(players, function(player) {
+            self.showPlayerConfigUI(player);
+          });
+        });
       });
+    },
 
-      $('.main-menu-button').click(function() {
-        App.newGame();
-      });
+    showPlayerConfigUI: function(player) {
+      // use a player-config template and pass the player into it
     },
 
     renderForeground: function(skyline) {

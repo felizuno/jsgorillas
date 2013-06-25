@@ -7,10 +7,9 @@ An experiment using the Gorillas game
 
 ### Now
 
-* How many players can we support? (default 2)
-* Player greeting (1p, 2p, 4p) (disable 1p and 4p for now)
-** Add a vanilla player to the manager for each 
 * Player name and character selection
+** view queue of some sort
+** a nextInQueue function (and a backToPrevious function) to bind buttons to
 
 * Once the players are done, make a game for them
 * Choose a city (default Seattle for now)
