@@ -6,45 +6,46 @@
   App.viewManager = {
     children: ['inputManager', 'canvasManager', 'styleManager'],
     handlers: {
-      greetHumans: 'greetHumans'
+      greetHumans: 'askHowManyPlayers'
     },
 
     init: function() {
       var self = this;
-      
       _.each(this.children, function(childName) {
         if (self[childName].init) {
           self[childName].init();
         }
       });
-
-      this.initFixedUI();
     },
 
-    greetHumans: function() {
-       // Needs to request how many max players so it can greet with
-      // the right options
-      $('.welcome').slideDown('slow');
-    },
-
-
-////////////////////////////////////////////////////
-    initFixedUI: function() {
+    askHowManyPlayers: function() {
       var self = this;
+      var rawTemplate = $('#how-many-players-template').html();
 
-      $('.2p').click(function() {
-        self.sendRequestFor('updatePlayerCount', 2).soICan(function(players) {
-          _.each(players, function(player) {
-            self.showPlayerConfigUI(player);
+      this.sendRequestFor('input', rawTemplate).soICan(function(response) {
+        self.sendRequestFor('updatePlayerCount', response).soICan(function(players) {
+          self.showPlayerConfigUI(players);
+        });
+      });
+    },
+
+    showPlayerConfigUI: function(players) {
+      var rawTemplate = $.trim($('#player-config-template').html());
+
+      _.each(players, function(player) {
+        var playerConfigUI = _.template(rawTemplate, player);
+        self.sendRequestFor('input', playerConfigUI).soICan(function(responses) {
+          _.each(responses, function(response, key) {
+            player[key] = response;
           });
         });
       });
     },
 
-    showPlayerConfigUI: function(player) {
-      // use a player-config template and pass the player into it
-    },
 
+
+
+////////////////////////////////////////////////////
     renderForeground: function(skyline) {
       var self = this;
 
