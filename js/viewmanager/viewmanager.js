@@ -23,17 +23,19 @@
       var rawTemplate = $('#how-many-players-template').html();
 
       this.sendRequestFor('input', rawTemplate).soICan(function(response) {
-        self.sendRequestFor('updatePlayerCount', response).soICan(function(players) {
+        self.sendRequestFor('updatePlayerCount', response.count).soICan(function(players) {
           self.showPlayerConfigUI(players);
         });
       });
     },
 
     showPlayerConfigUI: function(players) {
-      var rawTemplate = $.trim($('#player-config-template').html());
+      var self = this;
+      var rawTemplate = $('#player-config-template').html();
 
       _.each(players, function(player) {
         var playerConfigUI = _.template(rawTemplate, player);
+        
         self.sendRequestFor('input', playerConfigUI).soICan(function(responses) {
           _.each(responses, function(response, key) {
             player[key] = response;

@@ -39,17 +39,21 @@
             }
           });
         }
+
         $panel.hide();
+        console.log(response);
         pM.resolve(response);
+
+        if (self.inputRequestQueue.length === 0) {
+          console.log(self.inputRequestQueue);
+          self.runningRequestQueue = false;
+        } else {
+          self.runRequestQueue();
+        }
       });
 
       $panel.show();
 
-      if (!this.inputRequestQueue.length) {
-        this.runningRequestQueue = false;
-      } else {
-        this.runRequestQueue();
-      }
     }
   };
 

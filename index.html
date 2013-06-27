@@ -30,17 +30,18 @@
   <script id="how-many-players-template" type="text/template">
     <div class="playeroptions">
       <div class="playeroption disabled">1 player</div>
-      <div class="playeroption submit">2 players</div>
+      <div class="playeroption submit" data-count="2">2 players</div>
       <div class="playeroption disabled">4 players</div>
     </div>
   </script>
   
-  <script id="-template" type="text/template">
-  
+  <script id="player-config-template" type="text/template">
+    <div class="playeroption submit" data-init="true">Done</div>
+    <div class="playeroption"><%= name %></div>
   </script>
   
-  <script id="-template" type="text/template">
   
+  <script id="-template" type="text/template">
   </script>
 
 </head>
