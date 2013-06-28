@@ -15,10 +15,13 @@
     },
 
     runRequestQueue: function() {
-      this.runningRequestQueue = true;
       var self = this;
+
+      this.runningRequestQueue = true;
+
       var pM = this.inputRequestQueue.shift();
-      //sketchy
+      if (!pM) { return; }
+
       var $panel = $('.input-panel').html(pM.payload);
 
       $panel.find('.submit').click(function() {
@@ -33,13 +36,11 @@
         }
 
         $panel.hide();
-        console.log(response, self.inputRequestQueue);
         pM.resolve(response);
 
         if (self.inputRequestQueue.length === 0) {
           self.runningRequestQueue = false;
         } else {
-          // console.log(self.inputRequestQueue);
           self.runRequestQueue();
         }
       });

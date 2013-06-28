@@ -1,22 +1,22 @@
 (function() {
 
-  App.dataManager.modelManager.models.Game = Backbone.Model.extend({
-    initialize: function(howMany) {
-      if (howMany < 3) {
-        howMany = 3;
-      }
+  var module = App.dataManager.modelManager.models.Game = function() {
+    this.buildingCount = 14;
+  };
 
-      var canvasDims = Utils.captureCanvasProps();
-      this.makeSkyline(canvasDims, howMany);
+  module.prototype = {
+    init: function(zotRect) {
+      this.makeSkyline(zotRect);
     },
 
-    makeSkyline: function(canvasDims, howMany) {
-      var buildingWidth = canvasDims.width / howMany;
+    makeSkyline: function(zotRect) {
+      var howMany = this.buildingCount;
+      var buildingWidth = zotRect.width / howMany;
 
       var buildings = [];
       for(var i =0; i <= howMany; i++) {
         var height = (Math.floor(Math.random() * 300) + 100);
-        var top = canvasDims.height - height;
+        var top = zotRect.height - height;
         var left = buildingWidth * i;
 
         var building = new zot.rect(left, top, buildingWidth, height);
@@ -62,9 +62,9 @@
       this.set('config', {
         buildingWidth: buildingWidth,
         skyline: buildings,
-        _canvasDims: canvasDims
+        _canvasDims: zotRect
       });
     }
-  });
+  };
 
 })();

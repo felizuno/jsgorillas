@@ -7,13 +7,9 @@ An experiment using the Gorillas game
 
 ### Now
 
-* Player name and character selection
-** view queue of some sort
-** a nextInQueue function (and a backToPrevious function) to bind buttons to
-
 * Once the players are done, make a game for them
-* Choose a city (default Seattle for now)
-* Choose day or night
+** Choose a city (default Seattle for now)
+** Choose day or night
 
 * Jump into a round (draw initial set of buildings)
 ** Render city BG
@@ -22,6 +18,7 @@ An experiment using the Gorillas game
 
 ### Soon
 
+* Player character selection
 
 ### Later
 

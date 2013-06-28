@@ -3,22 +3,28 @@
   App.dataManager.playerManager = {
     players:[],
     handlers: {
-      updatePlayerCount: 'addPlayers',
-      player: 'returnPlayer'    
+      addPlayers: 'addPlayers',
+      player: 'returnPlayer'  
     },
 
     addPlayers: function(pM) {
       var self = this;
       var howMany = pM.payload || 1;
 
-      for (var i = 1; i <= howMany; i++) {
-        this.sendRequestFor('model', 'Player').soICan(function(newPlayer) {
-          newPlayer.name = 'Player' + i;
-          self.players.push(newPlayer);
-        });
-      }
+      _.each(_.range(howMany), function(number) {
+        self.sendRequestFor('model', 'Player').soICan(function(newPlayer) {
+          number++;
+          newPlayer.name = 'Player' + number;
 
-      pM.resolve(this.players)
+          self.sendRequestFor('askPlayerPrefs', newPlayer).soICan(function(updatedPlayer) {
+            self.players.push(updatedPlayer);
+
+            if (number === howMany) {
+              self.announce('playersChanged');
+            }
+          })
+        });
+      });
     },
 
     returnPlayer: function(pM) {

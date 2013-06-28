@@ -6,7 +6,9 @@
   App.viewManager = {
     children: ['inputManager', 'canvasManager', 'styleManager'],
     handlers: {
-      greetHumans: 'askHowManyPlayers'
+      greetHumans: 'askHowManyPlayers',
+      askPlayerPrefs: 'showPlayerConfigUI',
+      askGamePrefs: 'showGameConfigUI'
     },
 
     init: function() {
@@ -24,27 +26,39 @@
 
       this.sendRequestFor('input', rawTemplate).soICan(function(response) {
         console.log(response);
-        self.sendRequestFor('updatePlayerCount', response.count).soICan(function(players) {
-          self.showPlayerConfigUI(players);
-        });
+        self.announce('addPlayers', response.count);
       });
     },
 
-    showPlayerConfigUI: function(players) {
+    showPlayerConfigUI: function(pM) {
       var self = this;
       var rawTemplate = $('#player-config-template').html();
+      var player = pM.payload;
+      var playerConfigUI = _.template(rawTemplate, player);
 
-      _.each(players, function(player) {
-        var playerConfigUI = _.template(rawTemplate, player);
-
-        self.sendRequestFor('input', playerConfigUI).soICan(function(responses) {
-          _.each(responses, function(response, key) {
-            player[key] = response;
-          });
+      self.sendRequestFor('input', playerConfigUI).soICan(function(responses) {
+        _.each(responses, function(response, key) {
+          player[key] = response;
         });
+
+        pM.resolve(player);
       });
     },
+    // THIS IS HELLA DUPLICATED FROM ABOVE
+    showGameConfigUI: function(pM) {
+      var self = this;
+      var rawTemplate = $('#game-config-template').html();
+      var game = pM.payload;
+      var gameConfigUI = _.template(rawTemplate, game);
+      
+      self.sendRequestFor('input', gameConfigUI).soICan(function(responses) {
+        _.each(responses, function(response, key) {
+          game[key] = response;
+        });
 
+        pM.resolve(game);
+      });
+    },
 
 
 

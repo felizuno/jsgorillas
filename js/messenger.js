@@ -50,10 +50,12 @@
     },
 
     sendRequestFor: function(request, payload) {
+      console.log(request + ' requested');
       return this._pass(request, payload).to(this.findAddressFor(request));
     },
 
     announce: function(message, payload) {
+      console.log(message + ' announced');
       return this._pass(message, payload).to(this.findAddressFor(message));
     },
 
