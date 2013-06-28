@@ -31,12 +31,12 @@
       // debugger;
         var existingAddress = self.addressBook[message];
         if (existingAddress) {
-          existingAddress.concat(newHandlerName);
+          existingAddress.concat([self, newHandlerName]);
         } else {
           self.addressBook[message] = [self, newHandlerName];
         }
-
       });
+
         //overwrites
       _.each(this.addressBook, function(handler, message) {
         parent.addressBook[message] = handler;

@@ -22,7 +22,7 @@
             if (number === howMany) {
               self.announce('playersChanged');
             }
-          })
+          });
         });
       });
     },
@@ -34,7 +34,7 @@
         if (pM.payload == 'all') {
           pM.resolve(this.players);
         } else {
-          pM.resolve(_.fine(this.players, function(player) { return player.name == pM.payload}));
+          pM.resolve(_.find(this.players, function(player) { return player.name == pM.payload; }));
         }
       } // Also need to handle an object?
     }
