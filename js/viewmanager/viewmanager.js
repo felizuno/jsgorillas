@@ -23,6 +23,7 @@
       var rawTemplate = $('#how-many-players-template').html();
 
       this.sendRequestFor('input', rawTemplate).soICan(function(response) {
+        console.log(response);
         self.sendRequestFor('updatePlayerCount', response.count).soICan(function(players) {
           self.showPlayerConfigUI(players);
         });
@@ -35,7 +36,7 @@
 
       _.each(players, function(player) {
         var playerConfigUI = _.template(rawTemplate, player);
-        
+
         self.sendRequestFor('input', playerConfigUI).soICan(function(responses) {
           _.each(responses, function(response, key) {
             player[key] = response;

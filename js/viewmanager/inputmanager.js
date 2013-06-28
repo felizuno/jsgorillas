@@ -17,43 +17,34 @@
     runRequestQueue: function() {
       this.runningRequestQueue = true;
       var self = this;
-      var pM = this.inputRequestQueue.pop();
+      var pM = this.inputRequestQueue.shift();
       //sketchy
       var $panel = $('.input-panel').html(pM.payload);
 
       $panel.find('.submit').click(function() {
-        //sketchy
-        var response = $(this).data();
+        var $button = $(this);//sketchy
+        var response = $button.data();
 
-        if (!response) {
-          response = [];
-
-          //sketchy
-          $panel.children().each(function(i, $el) {
-            //sketchy
-            if ($el.data().length) {
-              //sketchy
-              _.each($el.data(), function(value, key) {
-                response[key] = value;
-              });
-            }
+        if (!response[0]) {
+          $panel.find('input').each(function(i, el) {
+            var $el = $(el);
+            response[$el.attr('name')] = $el.val();
           });
         }
 
         $panel.hide();
-        console.log(response);
+        console.log(response, self.inputRequestQueue);
         pM.resolve(response);
 
         if (self.inputRequestQueue.length === 0) {
-          console.log(self.inputRequestQueue);
           self.runningRequestQueue = false;
         } else {
+          // console.log(self.inputRequestQueue);
           self.runRequestQueue();
         }
       });
 
       $panel.show();
-
     }
   };
 
