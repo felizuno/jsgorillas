@@ -73,7 +73,7 @@
     },
 
     renderSkyline: function(pM){
-
+      console.log(pM.payload.skyline);
     },
 
 
