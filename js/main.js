@@ -19,7 +19,7 @@
 
     findAddressFor: function(request) {
       // App knows all the registered handlers
-      return (this.addressBook[request]) ? this.addressBook[request] : 'fuct';
+      return (this.addressBook[request]) ? this.addressBook[request] : function() { console.log('No handler for ' + request)};
     }
   };
 

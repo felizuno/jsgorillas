@@ -7,6 +7,8 @@
     children: ['inputManager', 'canvasManager', 'styleManager'],
     handlers: {
       greetHumans: 'askHowManyPlayers',
+      gameChange: 'renderGame',
+      roundChange: 'renderSkyline',
       askPlayerPrefs: 'showPlayerConfigUI',
       askGamePrefs: 'showGameConfigUI'
     },
@@ -58,6 +60,20 @@
 
         pM.resolve(game);
       });
+    },
+
+    renderGame: function(pM){
+      var skyColor = pM.payload.skyColor || 'black';
+      this.sendRequestFor('canvasContext', 'sky').soICan(function(ctx) {
+        ctx.fillStyle = skyColor;
+        ctx.fillRect(0, 0, 500, 500);
+      });
+
+      this.announce('roundChange', pM.payload.currentRound);
+    },
+
+    renderSkyline: function(pM){
+
     },
 
 
