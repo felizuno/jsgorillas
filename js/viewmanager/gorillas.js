@@ -8,7 +8,16 @@
     },
     
     renderRound: function(layerName, ctx, payload) {
-      this.renderForeground(ctx, payload.skyline);
+      var self = this;
+
+      if (layerName == 'fg1') {
+        this.renderSkyline(ctx, payload.skyline);
+      } else if (layerName == 'fg2') {
+        this.renderSkyline(ctx, payload.skyline);
+        _.each(payload.skyline, function(building) {
+            self._addWindowsToBuilding(ctx, building);
+        });
+      }
     },
 
     renderSky: function(ctx, rect) {
@@ -16,7 +25,7 @@
       ctx.fillRect(0, 0, rect.width, rect.height);
     },
 
-    renderForeground: function(ctx, skyline) {
+    renderSkyline: function(ctx, skyline) {
       var self = this;
 
       _.each(skyline, function(building, index) {
@@ -95,10 +104,11 @@
       // ctx.fillRect(40, 40, 40, 40);
       console.log(building.left, (building.top), building.width, building.height);
       ctx.fillRect(building.left, (building.top), building.width, building.height);
-      this._addWindowsToBuilding(ctx, building);
     },
 
     _addWindowsToBuilding: function(ctx, building) {
+      console.log('!!WINDOWS!!');
+      // debugger;
       var dark = Math.round((Math.random() * 15) + 7);
       for (var i = 0; i < building.windows.length; i++) {
           var w = building.windows[i];
