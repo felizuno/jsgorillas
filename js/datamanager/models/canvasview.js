@@ -6,9 +6,9 @@
     init: function(config) {
       this.$el = $('<canvas>')
         .addClass(config.name)
-        .prop('width', $('.game-view').width())         // Capture window once, and map its props to vars
-        .prop('height', $('.game-view').height()) // Capture window once, and map its props to vars
-        .appendTo('.game-view'); // Probably need explicit width and height
+        .prop('width', config.width)
+        .prop('height', config.height)
+        .appendTo('.game-view');
 
       this.ctx = this.$el[0].getContext('2d');
 

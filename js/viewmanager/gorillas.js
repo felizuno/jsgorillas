@@ -3,7 +3,7 @@
   App.viewManager.gorillas = {
     renderGame: function(layerName, ctx, payload) {
       if (layerName == 'sky') {
-        this.renderSky(ctx);
+        this.renderSky(ctx, payload);
       }
     },
     
@@ -13,7 +13,7 @@
 
     renderSky: function(ctx, rect) {
       ctx.fillStyle = 'lightblue';
-      ctx.fillRect(0, 0, 1000, 1000); //REPLACE
+      ctx.fillRect(0, 0, rect.width, rect.height);
     },
 
     renderForeground: function(ctx, skyline) {

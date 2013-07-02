@@ -13,15 +13,14 @@
       decoration: {}
     },
 
-    init: function() {
+    init: function(dims) {
       var self = this;
-      var w = $('.game-view');
 
       _.each(this.canvases, function(v, canvasName) {
         self._makeNewCanvas({
           name: canvasName,
-          width: w.width(),
-          height: w.height(),
+          width: dims.width,
+          height: dims.height,
           touchable: (canvasName === 'decoration')
         });
       });

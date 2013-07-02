@@ -14,9 +14,16 @@
 
     init: function() {
       var self = this;
+
+      var $view = $('.game-view');
+      this.gameViewDims = {
+        width: $view.width(),
+        height: $view.height()            
+      };
+
       _.each(this.children, function(childName) {
         if (self[childName].init) {
-          self[childName].init();
+          self[childName].init(self.gameViewDims);
         }
       });
     },
@@ -65,7 +72,7 @@
       var self = this;
 
       this.sendRequestFor('canvasContext', 'sky').soICan(function(ctx) {
-        self.gorillas.renderGame('sky', ctx, pM.payload);
+        self.gorillas.renderGame('sky', ctx, self.gameViewDims);
       });
 
       this.updateForNewRound(pM);
