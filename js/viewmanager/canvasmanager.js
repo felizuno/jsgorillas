@@ -7,10 +7,11 @@
     },
 
     canvases:{
-      sky: {},
+      bg1: {},
+      bg2: {},
       fg1: {},
       fg2: {},
-      decoration: {}
+      fg3: {}
     },
 
     init: function(dims) {
@@ -21,7 +22,7 @@
           name: canvasName,
           width: dims.width,
           height: dims.height,
-          touchable: (canvasName === 'decoration')
+          touchable: (canvasName === 'fg3')
         });
       });
     },

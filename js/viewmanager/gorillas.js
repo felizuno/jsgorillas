@@ -1,10 +1,8 @@
 (function() {
   
   App.viewManager.gorillas = {
-    renderGame: function(layerName, ctx, payload) {
-      if (layerName == 'sky') {
-        this.renderSky(ctx, payload);
-      }
+    renderSky: function(ctx, payload) {
+      this.renderSky(ctx, payload);
     },
     
     renderRound: function(layerName, ctx, payload) {

@@ -71,8 +71,8 @@
     updateForNewGame: function(pM){
       var self = this;
 
-      this.sendRequestFor('canvasContext', 'sky').soICan(function(ctx) {
-        self.gorillas.renderGame('sky', ctx, self.gameViewDims);
+      this.sendRequestFor('canvasContext', 'bg1').soICan(function(ctx) {
+        self.gorillas.renderSky(ctx, self.gameViewDims);
       });
 
       this.updateForNewRound(pM);
@@ -88,9 +88,7 @@
       this.sendRequestFor('canvasContext', 'fg2').soICan(function(ctx) {
         self.gorillas.renderRound('fg2', ctx, pM.payload.currentRound);
       });
-    },
-
-////////////////////////////////////////////////////
+    }
   };
 
 })();
