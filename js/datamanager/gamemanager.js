@@ -44,9 +44,13 @@
     },
 
     makeNewMap: function(pM) {
-      var newSkyline = this.gorillas.makeSkyline(70, 14); // get real values
-      this.currentGame.currentRound.skyline = newSkyline;
-      pM.resolve(newSkyline);
+      var self = this;
+
+      this.sendRequestFor('gameDims').soICan(function(dimensions) {
+        var newSkyline = self.gorillas.makeSkyline(dimensions.width, self.currentGame.buildingCount); // get real values
+        self.currentGame.currentRound.skyline = newSkyline;
+        pM.resolve(newSkyline);
+      });
     }
   };
 

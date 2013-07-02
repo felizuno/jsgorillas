@@ -2,15 +2,14 @@
   
   App.dataManager.gameManager.gorillas = {
     makeSkyline: function(screenWidth, howMany) {
-      // var screenWidth = this.currentGame.screenSize.width || 1000;
-      // var howMany = this.currentGame.buildingCount;
+      var buildingWidth = screenWidth / howMany;
       var buildings = [];
       for (var i = 1; i <= howMany; i++) {
         var height = (Math.floor(Math.random() * 300) + 100);
         var top = 1000 - height;//canvasDims.height - height;
-        var left = screenWidth * i;
+        var left = buildingWidth * i;
 
-        var building = new zot.rect(left, top, screenWidth, height);
+        var building = new zot.rect(left, top, buildingWidth, height);
         
         // Move this to the view
         // if (i % 3 === 0) {
@@ -22,9 +21,9 @@
         // }
 
         building.windows = [];
-        var xInc = ((screenWidth / 5) - 5);
+        var xInc = ((buildingWidth / 5) - 5);
         var yInc = 22; // (building.height / 8);
-        var xStop = (left + screenWidth - xInc);
+        var xStop = (left + buildingWidth - xInc);
         var yStop = (top + height - yInc);
 
         for (var yPos = (top + yInc); yPos < yStop; yPos += yInc) {

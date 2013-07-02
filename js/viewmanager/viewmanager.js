@@ -6,7 +6,8 @@
   App.viewManager = {
     children: ['inputManager', 'canvasManager', 'styleManager'],
     handlers: {
-      greetHumans: 'askHowManyPlayers',
+      gameDims: 'reportGameDims',
+      greetHumans: 'showPlayerCountUI',
       gameChange: 'updateForNewGame',
       askPlayerPrefs: 'showPlayerConfigUI',
       askGamePrefs: 'showGameConfigUI'
@@ -28,7 +29,11 @@
       });
     },
 
-    askHowManyPlayers: function() {
+    reportGameDims: function(pM) {
+      pM.resolve(this.gameViewDims);
+    },
+
+    showPlayerCountUI: function() {
       var self = this;
       var rawTemplate = $('#how-many-players-template').html();
 
