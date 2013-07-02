@@ -12,13 +12,13 @@
         var building = new zot.rect(left, top, buildingWidth, height);
         
         // Move this to the view
-        // if (i % 3 === 0) {
-        //   building.color = 'teal';
-        // } else if (i % 5 === 0) {
-        //   building.color = 'green';
-        // } else {
+        if (i % 3 === 0) {
+          building.color = 'teal';
+        } else if (i % 5 === 0) {
+          building.color = 'green';
+        } else {
           building.color = 'plum';
-        // }
+        }
 
         building.windows = [];
         var xInc = ((buildingWidth / 5) - 5);
@@ -41,13 +41,13 @@
         if (howMany > 3) {
           // TODO: Accomodate more than 2 players
           if (i === 1 || i === (howMany - 2)) {
-            building.gorilla = true; //'img/gorilla-left.png';
+            building.gorilla = 'img/gorilla-left.png';
             // PLAYERS HAVE AN UPDATEPOSITION METHOD... USE IT
             // this.addPlayerPosition(new zot.rect(gorillaLeft, gorillaTop, gorillaWidth, gorillaHeight));
           }
         } else { // howMany = 3 (< 3 not allowed up top)
           if (i === 0 || i === 2) {
-            building.gorilla = true; //'img/gorilla-left.png';
+            building.gorilla = 'img/gorilla-left.png';
             // PLAYERS HAVE AN UPDATEPOSITION METHOD... USE IT
             // this.addPlayerPosition(new zot.rect(gorillaLeft, gorillaTop, gorillaWidth, gorillaHeight));
           }

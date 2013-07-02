@@ -123,6 +123,8 @@
 
     _placeGorillaOnTop: function(ctx, building) {
       var self = this;
+
+      console.log('Gorilla party!');
       var x = Math.round(building.left + ((building.width - 28) / 2));
       var y = Math.round(building.top - 28);
       
@@ -130,8 +132,7 @@
       var gorilla = new Image();
       gorilla.src = building.gorilla;
       gorilla.onload = function(){
-        self.ctx.drawImage(gorilla, x, y);
-        self.gorillas.push(new zot.rect(x, y, 28, 28));
+        ctx.drawImage(gorilla, x, y);
       }
     }
 
