@@ -2,10 +2,18 @@
   
   App.viewManager.gorillas = {
     renderGame: function(layerName, ctx, payload) {
+      if (layerName == 'sky') {
+        this.renderSky(ctx);
+      }
     },
     
     renderRound: function(layerName, ctx, payload) {
       this.renderForeground(ctx, payload.skyline);
+    },
+
+    renderSky: function(ctx, rect) {
+      ctx.fillStyle = 'lightblue';
+      ctx.fillRect(0, 0, 1000, 1000); //REPLACE
     },
 
     renderForeground: function(ctx, skyline) {
@@ -85,8 +93,8 @@
       // debugger;
       ctx.fillStyle = building.color;
       // ctx.fillRect(40, 40, 40, 40);
-      console.log(building.left, (building.top - 600), building.width, building.height);
-      ctx.fillRect(building.left, (building.top - 600), building.width, building.height);
+      console.log(building.left, (building.top), building.width, building.height);
+      ctx.fillRect(building.left, (building.top), building.width, building.height);
       this._addWindowsToBuilding(ctx, building);
     },
 

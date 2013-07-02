@@ -6,8 +6,8 @@
     init: function(config) {
       this.$el = $('<canvas>')
         .addClass(config.name)
-        .prop('width', $(window).width())         // Capture window once, and map its props to vars
-        .prop('height', $(window).height() - 100) // Capture window once, and map its props to vars
+        .prop('width', $('.game-view').width())         // Capture window once, and map its props to vars
+        .prop('height', $('.game-view').height()) // Capture window once, and map its props to vars
         .appendTo('.game-view'); // Probably need explicit width and height
 
       this.ctx = this.$el[0].getContext('2d');

@@ -24,8 +24,6 @@
           height: w.height(),
           touchable: (canvasName === 'decoration')
         });
-
-        self.animator.renderSky();
       });
     },
 
