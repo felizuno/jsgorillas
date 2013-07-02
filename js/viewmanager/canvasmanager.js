@@ -2,15 +2,15 @@
   
   App.viewManager.canvasManager = {
     children: ['animator'],
-    canvases:{
-      sky: {},
-      cityBg: {},
-      cityFg: {},
-      decoration: {}
+    handlers: {
+      canvasContext: 'getCanvasContext'
     },
 
-    handlers: {
-      canvasContext: 'getCanvasContext' 
+    canvases:{
+      sky: {},
+      fg1: {},
+      fg2: {},
+      decoration: {}
     },
 
     init: function() {
