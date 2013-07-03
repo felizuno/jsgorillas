@@ -33,23 +33,29 @@
           }
         }
 
-        var gorillaWidth = 28;  // replace later
-        var gorillaHeight = 28; // replace later
-        var gorillaLeft = Math.round(building.left + ((building.width - gorillaWidth) / 2));
-        var gorillaTop = Math.round(building.top - gorillaHeight);
+        var gorillaTouchWidth = 40;  // replace later
+        var gorillaTouchHeight = 40; // replace later
+        var gorillaTouchLeft = Math.round(building.left + ((building.width - gorillaTouchWidth) / 2));
+        var gorillaTouchTop = Math.round((building.top + 14) - (gorillaTouchHeight / 2));
 
         if (howMany > 3) {
           // TODO: Accomodate more than 2 players
           if (i === 1 || i === (howMany - 2)) {
             building.gorilla = 'img/gorilla-left.png';
-            // PLAYERS HAVE AN UPDATEPOSITION METHOD... USE IT
-            // this.addPlayerPosition(new zot.rect(gorillaLeft, gorillaTop, gorillaWidth, gorillaHeight));
+            building.gorillaTouchTarget = {
+              who: 1, // TODO: Move this somewhere better
+              where: new zot.rect(gorillaTouchLeft, gorillaTouchTop, gorillaTouchWidth, gorillaTouchHeight),
+              left: (i === 1)
+            };
           }
         } else { // howMany = 3 (< 3 not allowed up top)
           if (i === 0 || i === 2) {
             building.gorilla = 'img/gorilla-left.png';
-            // PLAYERS HAVE AN UPDATEPOSITION METHOD... USE IT
-            // this.addPlayerPosition(new zot.rect(gorillaLeft, gorillaTop, gorillaWidth, gorillaHeight));
+            building.gorillaTouchTarget = {
+              who: 2, // TODO: Move this somewhere better
+              where: new zot.rect(gorillaTouchLeft, gorillaTouchTop, gorillaTouchWidth, gorillaTouchHeight),
+              left: (i === 0)
+            };
           }
         }
 
