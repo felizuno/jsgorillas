@@ -1,26 +1,26 @@
 (function() {
-  App.dataManager.Physics = {
+  App.viewManager.gorillas.physics = {
     gravity: .98,
 
-    simulateToss: function(theta, velocity, origin) {
+    simulateToss: function(config) {
       var g = this.gravity;
 
       return {
-        vX: (velocity * Math.cos(theta)),
-        vY: (velocity * Math.sin(theta)),
-        origin: origin,
+        vX: (config.velocity * Math.cos(config.theta)),
+        vY: (config.velocity * Math.sin(config.theta)),
+        origin: config.origin,
         left: false,
 
         positionAt: function (time) {
           time = time / 60;
           
           if (this.left) {
-            var x = origin[0] - (this.vX * time);
+            var x = config.origin.left - (this.vX * time);
           } else {
-            var x = origin[0] + (this.vX * time);
+            var x = config.origin.left + (this.vX * time);
           }
           // debugger;
-          var y = (this.vY * time) - (0.5 * g * (time * time)) - origin[1];
+          var y = (this.vY * time) - (0.5 * g * (time * time)) - config.origin.top;
           y = Math.abs(y);
 
           return {
