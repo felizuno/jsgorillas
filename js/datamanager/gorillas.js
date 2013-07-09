@@ -42,19 +42,21 @@
         if (howMany > 3) {
           // TODO: Accomodate more than 2 players
           if (i === 1 || i === (howMany - 2)) {
-            building.gorilla = 'img/gorilla-left.png';
-            building.gorillaTouchTarget = {
+            building.gorilla = {
               who: i, // TODO: Move this somewhere better
-              where: new zot.rect(gorillaTouchLeft, gorillaTouchTop, gorillaTouchWidth, gorillaTouchHeight),
+              img: 'img/gorilla-left.png',
+              location: new zot.rect(building.left + ((building.width / 2) - 14), (building.top - 28), 28, 28),
+              touchArea: new zot.rect(gorillaTouchLeft, gorillaTouchTop, gorillaTouchWidth, gorillaTouchHeight),
               left: (i === 1)
             };
           }
         } else { // howMany = 3 (< 3 not allowed up top)
           if (i === 0 || i === 2) {
-            building.gorilla = 'img/gorilla-left.png';
-            building.gorillaTouchTarget = {
+            building.gorilla = {
               who: 2, // TODO: Move this somewhere better
-              where: new zot.rect(gorillaTouchLeft, gorillaTouchTop, gorillaTouchWidth, gorillaTouchHeight),
+              img: 'img/gorilla-left.png',
+              location: new zot.rect(building.left + ((building.width / 2) - 14), (building.top - 28), 28, 28),
+              touchArea: new zot.rect(gorillaTouchLeft, gorillaTouchTop, gorillaTouchWidth, gorillaTouchHeight),
               left: (i === 0)
             };
           }
