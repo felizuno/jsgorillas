@@ -14,6 +14,10 @@
         this.renderSkyline(ctx, payload.skyline);
         _.each(payload.skyline, function(building) {
             self._addWindowsToBuilding(ctx, building);
+            if (building.gorillaTouchTarget) {
+              // self.registerTouchTarget(building.gorillaTouchTarget)
+              //Announce new target for inputManager
+            }
         });
       }
     },
@@ -52,12 +56,12 @@
           });
 
           // Clear the circle
-          ctx.cityFg.ctx.globalCompositeOperation = 'destination-out';
-          ctx.cityFg.ctx.beginPath();
-          ctx.cityFg.ctx.arc(pos.x, pos.y, 50, 0, 2 * Math.PI);
-          ctx.cityFg.ctx.closePath();
-          ctx.cityFg.ctx.fill(); 
-          ctx.cityFg.ctx.globalCompositeOperation = 'source-over';
+          ctx.globalCompositeOperation = 'destination-out';
+          ctx.beginPath();
+          ctx.arc(pos.x, pos.y, 50, 0, 2 * Math.PI);
+          ctx.closePath();
+          ctx.fill(); 
+          ctx.globalCompositeOperation = 'source-over';
 
           return;
         }

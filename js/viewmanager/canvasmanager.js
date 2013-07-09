@@ -3,6 +3,7 @@
   App.viewManager.canvasManager = {
     children: ['animator'],
     handlers: {
+      canvas: 'getCanvas',
       canvasContext: 'getCanvasContext'
     },
 
@@ -22,9 +23,13 @@
           name: canvasName,
           width: dims.width,
           height: dims.height,
-          touchable: (canvasName === 'fg3')
+          touchable: false
         });
       });
+    },
+
+    getCanvas: function(pM) {
+      pM.resolve(this.canvases[pM.payload]);
     },
 
     getCanvasContext: function(pM) {

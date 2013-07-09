@@ -27,6 +27,12 @@
           self[childName].init(self.gameViewDims);
         }
       });
+
+      this.sendRequestFor('canvas', 'fg3').soICan(function(canvas) {
+        self.sendRequestFor('makeTouchable', canvas).soICan(function(touchableCanvas) {
+          // TODO ? 
+        });
+      });
     },
 
     reportGameDims: function(pM) {
@@ -80,18 +86,18 @@
         self.gorillas.renderSky(ctx, self.gameViewDims);
       });
 
-      this.updateForNewRound(pM);
+      this.updateForNewRound({ payload: pM.payload.currentRound });
     },
 
     updateForNewRound: function(pM){
       var self = this;
 
       this.sendRequestFor('canvasContext', 'fg1').soICan(function(ctx) {
-        self.gorillas.renderRound('fg1', ctx, pM.payload.currentRound);
+        self.gorillas.renderRound('fg1', ctx, pM.payload);
       });
 
       this.sendRequestFor('canvasContext', 'fg2').soICan(function(ctx) {
-        self.gorillas.renderRound('fg2', ctx, pM.payload.currentRound);
+        self.gorillas.renderRound('fg2', ctx, pM.payload);
       });
     }
   };
