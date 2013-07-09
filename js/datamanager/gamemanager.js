@@ -47,10 +47,9 @@
       var self = this;
 
       this.sendRequestFor('gameDims').soICan(function(dimensions) {
-        console.log('dimensions', dimensions);
-        var newSkyline = self.gorillas.makeSkyline(dimensions.width, self.currentGame.buildingCount); // get real values
-        self.currentGame.currentRound.skyline = newSkyline;
-        pM.resolve(newSkyline);
+        var newMap = self.gorillas.makeSkyline(dimensions.width, self.currentGame.buildingCount); // get real values
+        self.currentGame.currentRound.skyline = newMap;
+        pM.resolve(newMap);
       });
     }
   };
