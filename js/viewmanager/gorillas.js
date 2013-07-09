@@ -1,10 +1,20 @@
 (function() {
   
   App.viewManager.gorillas = {
-    renderSky: function(ctx, payload) {
-      this.renderSky(ctx, payload);
+    handlers: {
+      respondToTouch: 'handleTouch'
     },
-    
+    playerLocations: [],
+
+    handleTouch: function(pM) {
+      var self = this;
+      var toss = this.physics.simulateToss(pM.payload);
+      
+      this.sendRequestFor('canvasContext', 'fg2').soICan(function(ctx) {
+        self.renderThrow(ctx, toss);
+      });
+    },
+
     renderRound: function(layerName, ctx, payload) {
       var self = this;
 
@@ -14,12 +24,22 @@
         this.renderSkyline(ctx, payload.skyline);
         _.each(payload.skyline, function(building) {
             self._addWindowsToBuilding(ctx, building);
-            if (building.gorillaTouchTarget) {
-              // self.registerTouchTarget(building.gorillaTouchTarget)
-              //Announce new target for inputManager
+            if (building.gorilla) {
+              self.announce('registerTouchTarget', building.gorilla);
+              self.addPlayerPosition(building.gorilla);
             }
         });
       }
+    },
+
+    addPlayerPosition: function(player) {
+      // player.payload should be a zot.rect
+      this.playerLocations = _.reject(this.playerLocations, function(target) {
+        return target.who === player.who;
+      });
+
+      this.playerLocations.push(player);
+      console.log('Targets: ', this.playerLocations);
     },
 
     renderSky: function(ctx, rect) {
@@ -45,7 +65,7 @@
       var step = function(timestamp) {
         var progress = timestamp - start;
         var pos = toss.positionAt(progress);
-        var imgData = ctx.cityFg.ctx.getImageData(pos.x, pos.y, 1, 1).data;
+        var imgData = ctx.getImageData(pos.x, pos.y, 1, 1).data;
 
         if (imgData[0] !== 0  || imgData[1] !== 0 || imgData[2] !== 0) {
           var circle = new zot.arc(pos, 50);
@@ -134,7 +154,7 @@
       
       self.gorillas = [];
       var gorilla = new Image();
-      gorilla.src = building.gorilla;
+      gorilla.src = building.gorilla.img;
       gorilla.onload = function(){
         ctx.drawImage(gorilla, x, y);
       }

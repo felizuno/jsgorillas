@@ -4,7 +4,7 @@
       //   || window.webkitRequestAnimationFrame
       //   || window.msRequestAnimationFrame;
   App.viewManager = {
-    children: ['inputManager', 'canvasManager', 'styleManager'],
+    children: ['inputManager', 'canvasManager', 'styleManager', 'gorillas'],
     handlers: {
       gameDims: 'reportGameDims',
       greetHumans: 'showPlayerCountUI',
@@ -16,6 +16,7 @@
     init: function() {
       var self = this;
 
+      // Move the game dims stuff into an update function, and then call it on window.resize
       var $view = $('.game-view');
       this.gameViewDims = {
         width: $view.width(),
@@ -33,6 +34,14 @@
           // TODO ? 
         });
       });
+
+    var requestAnimationFrame = 
+      window.requestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.msRequestAnimationFrame;
+
+      window.requestAnimationFrame = requestAnimationFrame;
     },
 
     reportGameDims: function(pM) {
@@ -98,13 +107,6 @@
 
       this.sendRequestFor('canvasContext', 'fg2').soICan(function(ctx) {
         self.gorillas.renderRound('fg2', ctx, pM.payload);
-      });
-
-      // THIS SHOULD MOVE TO GORILLAS
-      _.each(pM.payload.skyline, function(building) {
-        if (building.gorillaTouchTarget) {
-          self.announce('registerTouchTarget', building.gorillaTouchTarget);
-        }
       });
     }
   };

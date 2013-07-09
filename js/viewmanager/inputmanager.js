@@ -16,7 +16,6 @@
       if (!pM.payload.touchable) {
         pM.payload.$el.on('touchstart', _.bind(this.processTouchStart, this));
         pM.payload.$el.on('touchend', _.bind(this.processTouchEnd, this));
-
         pM.payload.touchable = true;
       }
 
@@ -58,9 +57,9 @@
         console.log('Touch read as: ', zotRect);
 
         _.each(self.touchTargets, function(target) {
-          if (zotRect.intersects(target.where)) {
-            console.log('Gorilla!!!', target.where);
-            touch.time = Date.now();
+          if (zotRect.intersects(target.touchArea)) {
+            console.log('Gorilla!!!', target.touchArea);
+            touch.origin = target.location;
             self.touchTracker.push(touch);
             return;
           }
@@ -71,24 +70,22 @@
     processTouchEnd: function(origEvent) {
       var e = origEvent.originalEvent.changedTouches[0]; // IS IT REALLY ALWAYS JUST THE ONE?
 
-      var valid = _.find(this.touchTracker, function(touch) {
+      var tracked = _.find(this.touchTracker, function(touch) {
         return touch.identifier === e.identifier;
       });
 
-      if (valid) {
-        var deltaX = e.clientX - valid.clientX;
-        var deltaY = e.clientY - valid.clientY;
-        var deltaT = (Date.now - valid.time); // * 0.001;
-
+      if (tracked) {
+        var deltaX = e.clientX - tracked.clientX;
+        var deltaY = e.clientY - tracked.clientY;
         var theta = Math.atan(deltaY / deltaX);
-        console.log('Theta', theta);
         var velocity = (Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) / 5); // Magic Number 5
+        console.log('Theta', theta, 'Velocity', velocity);
 
-        // return {
-        //   theta: theta,
-        //   velocity: velocity,
-        //   origin: [this.x0, this.top]
-        // };
+        this.announce('respondToTouch', {
+          theta: theta,
+          velocity: velocity,
+          origin: tracked.origin
+        });
       }
     },
 
