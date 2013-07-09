@@ -14,8 +14,8 @@
 
     enableTouchInput: function(pM) {
       if (!pM.payload.touchable) {
-        pM.payload.$el.on('touchstart', this.processTouchStart);
-        pM.payload.$el.on('touchend', this.processTouchEnd);
+        pM.payload.$el.on('touchstart', _.bind(this.processTouchStart, this));
+        pM.payload.$el.on('touchend', _.bind(this.processTouchEnd, this));
 
         pM.payload.touchable = true;
       }
@@ -25,6 +25,12 @@
 
     addTouchTarget: function(pM) {
       // pM.payload should be a zot.rect
+      this.touchTargets = _.reject(this.touchTargets, function(target) {
+        return target.who === pM.payload.who;
+      });
+
+      this.touchTargets.push(pM.payload);
+      console.log('Targets: ', this.touchTargets);
     },
 
     removeTouchTarget: function(pM) {
@@ -48,8 +54,9 @@
       var e = origEvent.originalEvent;
 
       _.each(e.changedTouches, function(touch) {
-        var zotRect = new zot.rect(touch.screenX - 20, touch.screenY - 20, 40, 40); // TODO: Build the rect to represent the cussioned touch
-    
+        var zotRect = new zot.rect(touch.clientX - 20, touch.clientY - 20, 40, 40); // TODO: Build the rect to represent the cussioned touch
+        console.log('Touch read as: ', zotRect);
+
         _.each(self.touchTargets, function(target) {
           if (zotRect.intersects(target.where)) {
             console.log('Gorilla!!!', target.where);
@@ -69,8 +76,8 @@
       });
 
       if (valid) {
-        var deltaX = e.screenX - valid.screenX;
-        var deltaY = e.screenY - valid.screenY;
+        var deltaX = e.clientX - valid.clientX;
+        var deltaY = e.clientY - valid.clientY;
         var deltaT = (Date.now - valid.time); // * 0.001;
 
         var theta = Math.atan(deltaY / deltaX);

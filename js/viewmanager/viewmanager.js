@@ -99,6 +99,13 @@
       this.sendRequestFor('canvasContext', 'fg2').soICan(function(ctx) {
         self.gorillas.renderRound('fg2', ctx, pM.payload);
       });
+
+      // THIS SHOULD MOVE TO GORILLAS
+      _.each(pM.payload.skyline, function(building) {
+        if (building.gorillaTouchTarget) {
+          self.announce('registerTouchTarget', building.gorillaTouchTarget);
+        }
+      });
     }
   };
 

@@ -23,7 +23,7 @@
     registerHandlersWith: function(parent) {
       var self = this;
       var handlers = this.handlers || {};
-      console.log('Registering ' + this.name + '\'s handlers with ' + parent.name);
+      // console.log('Registering ' + this.name + '\'s handlers with ' + parent.name);
       if (!this.addressBook) { this.addressBook = {}; }
       if (!parent.addressBook) { parent.addressBook = {}; }
 
@@ -50,7 +50,7 @@
     },
 
     sendRequestFor: function(request, payload) {
-      console.log(request + ' requested');
+      // console.log(request + ' requested');
       return this._pass(request, payload).to(this.findAddressFor(request));
     },
 

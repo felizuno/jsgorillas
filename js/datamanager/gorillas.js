@@ -4,7 +4,8 @@
     makeSkyline: function(screenWidth, howMany) {
       var buildingWidth = screenWidth / howMany;
       var buildings = [];
-      for (var i = 0; i < howMany; i++) {
+      // for (var i = 0; i < howMany; i++) {
+      _.each(_.range(howMany), function(v, i) {
         var height = (Math.floor(Math.random() * 300) + 100);
         var top = 1000 - height;//canvasDims.height - height;
         var left = buildingWidth * i;
@@ -43,7 +44,7 @@
           if (i === 1 || i === (howMany - 2)) {
             building.gorilla = 'img/gorilla-left.png';
             building.gorillaTouchTarget = {
-              who: 1, // TODO: Move this somewhere better
+              who: i, // TODO: Move this somewhere better
               where: new zot.rect(gorillaTouchLeft, gorillaTouchTop, gorillaTouchWidth, gorillaTouchHeight),
               left: (i === 1)
             };
@@ -60,7 +61,7 @@
         }
 
         buildings.push(building);
-      }
+      });
 
       return buildings;
     }

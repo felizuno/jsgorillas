@@ -104,8 +104,8 @@
       // debugger;
       ctx.fillStyle = building.color;
       // ctx.fillRect(40, 40, 40, 40);
-      console.log(building.left, (building.top), building.width, building.height);
-      ctx.fillRect(building.left, (building.top), building.width, building.height);
+      console.log('Building ', building.left, building.top);
+      ctx.fillRect(building.left, building.top, building.width, building.height);
     },
 
     _addWindowsToBuilding: function(ctx, building) {
