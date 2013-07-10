@@ -19,7 +19,7 @@
       var self = this;
 
       if (layerName == 'fg1') {
-        this.renderSkyline(ctx, payload.skyline);
+        this.renderSkyline(ctx, payload.skyline, 0.5);
       } else if (layerName == 'fg2') {
         this.renderSkyline(ctx, payload.skyline);
         _.each(payload.skyline, function(building) {
@@ -47,13 +47,17 @@
       ctx.fillRect(0, 0, rect.width, rect.height);
     },
 
-    renderSkyline: function(ctx, skyline) {
+    renderSkyline: function(ctx, skyline, alpha) {
       var self = this;
+
+      ctx.globalAlpha = alpha || 1;
 
       _.each(skyline, function(building, index) {
         self._drawBuilding(ctx, building);
         building.gorilla ? self._placeGorillaOnTop(ctx, building) : '';
       });
+
+      ctx.globalAlpha = 1;
     },
 
     renderThrow: function(ctx, toss) {
@@ -93,7 +97,7 @@
 
         ctx.fillRect(pos.x, pos.y, width, 10);
         // debugger;
-        if (progress < hangTime * 1000) { // should cut this off at the edges of the canvas
+        if (progress < hangTime * 1000 || true) { //TODO should cut this off at the edges of the canvas
           requestAnimationFrame(step);
         }
 
