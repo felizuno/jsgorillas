@@ -4,23 +4,26 @@
 
     simulateToss: function(config) {
       var g = this.gravity;
-
+      console.log('left?', (config.theta > 0));
       return {
         vX: (config.velocity * Math.cos(config.theta)),
         vY: (config.velocity * Math.sin(config.theta)),
         origin: config.origin,
-        left: false,
+        left: (config.theta > 0),
 
         positionAt: function (time) {
           time = time / 60;
-          
+
           if (this.left) {
             var x = config.origin.left - (this.vX * time);
+            var y = (this.vY * time) - (0.5 * g * (time * time)) - config.origin.top;
           } else {
-            var x = config.origin.left + (this.vX * time);
+            var x = config.origin.right() + (this.vX * time);
+            var y = (-this.vY * time) - (0.5 * g * (time * time)) - config.origin.top;
+
           }
           // debugger;
-          var y = (this.vY * time) - (0.5 * g * (time * time)) - config.origin.top;
+          //var y = (this.vY * time) - (0.5 * g * (time * time)) - config.origin.top;
           y = Math.abs(y);
 
           return {
