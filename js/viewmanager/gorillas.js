@@ -10,8 +10,10 @@
       var self = this;
       var toss = this.physics.simulateToss(pM.payload);
       
-      this.sendRequestFor('canvasContext', 'fg2').soICan(function(ctx) {
-        self.renderThrow(ctx, toss);
+      this.sendRequestFor('canvasContext', 'fg2').soICan(function(buildingCtx) {
+        self.sendRequestFor('canvasContext', 'fg3').soICan(function(bananaCtx) {
+          self.renderThrow(bananaCtx, buildingCtx, toss);
+        });
       });
     },
 
@@ -42,9 +44,18 @@
       console.log('Targets: ', this.playerLocations);
     },
 
-    renderSky: function(ctx, rect) {
+    renderSky: function(ctx) {
+      this.sendRequestFor('gameDims').soICan(function(dims) {
       ctx.fillStyle = 'lightblue';
-      ctx.fillRect(0, 0, rect.width, rect.height);
+      ctx.fillRect(0, 0, dims.width, dims.height);
+      ctx.fillStyle = 'yellow';
+      ctx.beginPath();
+      ctx.arc((dims.width / 2), 100, 75, 0, 2 * Math.PI);
+      ctx.closePath();
+      ctx.fill(); 
+      ctx.globalCompositeOperation = 'source-over';
+
+      });
     },
 
     renderSkyline: function(ctx, skyline, alpha) {
@@ -60,7 +71,7 @@
       ctx.globalAlpha = 1;
     },
 
-    renderThrow: function(ctx, toss) {
+    renderThrow: function(bananaCtx, buildingCtx, toss) {
       var self = this;
       var start = Date.now();
       var hangTime = toss.hangTime();
@@ -69,46 +80,54 @@
       var step = function(timestamp) {
         var progress = timestamp - start;
         var pos = toss.positionAt(progress);
-        var imgData = ctx.getImageData(pos.x, pos.y, 1, 1).data;
+        var future = toss.positionAt(progress + 1);
+        var imgData = buildingCtx.getImageData(future.x, future.y, 1, 1).data;
 
         if (imgData[0] !== 0  || imgData[1] !== 0 || imgData[2] !== 0) {
           var circle = new zot.arc(pos, 50);
-          _.each(self.gorillas, function(gorilla, i) {
-            if (circle.intersects(gorilla)) {
-              console.log('HIT!!!!', i);
-            }
+          self.sendRequestFor('player', 'all').soICan(function(players) {
+            _.each(players, function(player) {
+              if (circle.intersects(player.position)) {
+                console.log('HIT!!!!', player.name);
+                self.sendRequestFor('newRound').soICan(function(newRound) {
+                  self.announce('roundChange', newRound);
+                });
+              }
+            });
           });
 
+
           // Clear the circle
-          ctx.globalCompositeOperation = 'destination-out';
-          ctx.beginPath();
-          ctx.arc(pos.x, pos.y, 50, 0, 2 * Math.PI);
-          ctx.closePath();
-          ctx.fill(); 
-          ctx.globalCompositeOperation = 'source-over';
+          buildingCtx.globalCompositeOperation = 'destination-out';
+          buildingCtx.beginPath();
+          buildingCtx.arc(pos.x, pos.y, 50, 0, 2 * Math.PI);
+          buildingCtx.closePath();
+          buildingCtx.fill(); 
+          buildingCtx.globalCompositeOperation = 'source-over';
 
           return;
         }
 
         var width = 10;
-        if (!self.left) {
-          width *= -1;
-        }
+        // if (!self.left) {
+        //   width *= -1;
+        // }
 
-        ctx.fillRect(pos.x, pos.y, width, 10);
+        bananaCtx.fillRect(pos.x, pos.y, width, 10);
         // debugger;
-        if (progress < hangTime * 1000 || true) { //TODO should cut this off at the edges of the canvas
+        //if (progress < hangTime * 1000 || true) { //TODO should cut this off at the edges of the canvas
+        if (pos.x > 0 && pos.x < 1900 && pos.y > -600) {
           requestAnimationFrame(step);
         }
 
         setTimeout(function() {
           requestAnimationFrame(function() {
-            ctx.clearRect(pos.x, pos.y, width, 10);
+            bananaCtx.clearRect(pos.x, pos.y, width, 10);
           })
         }, 20);
       };
       
-      ctx.fillStyle = 'yellow';
+      bananaCtx.fillStyle = 'yellow';
 
       requestAnimationFrame(step);
     },

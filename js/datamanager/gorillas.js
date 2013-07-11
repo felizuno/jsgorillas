@@ -43,7 +43,7 @@
           // TODO: Accomodate more than 2 players
           if (i === 1 || i === (howMany - 2)) {
             building.gorilla = {
-              who: i, // TODO: Move this somewhere better
+              who: (i > (howMany / 2)) ? 1 : 0, // TODO: Move this somewhere better
               img: 'img/gorilla-left.png',
               location: new zot.rect(building.left + ((building.width / 2) - 14), (building.top - 28), 28, 28),
               touchArea: new zot.rect(gorillaTouchLeft, gorillaTouchTop, gorillaTouchWidth, gorillaTouchHeight),

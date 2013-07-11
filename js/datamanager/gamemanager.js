@@ -50,6 +50,14 @@
         var newMap = self.gorillas.makeSkyline(dimensions.width, self.currentGame.buildingCount); // get real values
         self.currentGame.currentRound.skyline = newMap;
         pM.resolve(newMap);
+
+        self.sendRequestFor('player', 'all').soICan(function(players) {
+          _.each(newMap, function(building) {
+            if (building.gorilla) {
+              players[building.gorilla.who].position = building.gorilla.location;
+            }
+          });
+        });
       });
     }
   };

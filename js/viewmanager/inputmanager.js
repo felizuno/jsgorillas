@@ -12,6 +12,16 @@
       input: 'queueInputRequest'      
     },
 
+    init: function() {
+      var self = this;
+
+      $('.reset').click(function(){
+        self.sendRequestFor('newRound').soICan(function(newRound) {
+          self.announce('roundChange', newRound);
+        });
+      });
+    },
+
     enableTouchInput: function(pM) {
       if (!pM.payload.touchable) {
         pM.payload.$el.on('touchstart', _.bind(this.processTouchStart, this));

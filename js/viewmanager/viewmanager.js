@@ -9,6 +9,7 @@
       gameDims: 'reportGameDims',
       greetHumans: 'showPlayerCountUI',
       gameChange: 'updateForNewGame',
+      roundChange: 'updateForNewRound',
       askPlayerPrefs: 'showPlayerConfigUI',
       askGamePrefs: 'showGameConfigUI'
     },
@@ -92,6 +93,7 @@
       var self = this;
 
       this.sendRequestFor('canvasContext', 'bg1').soICan(function(ctx) {
+        ctx.canvas.width = ctx.canvas.width;
         self.gorillas.renderSky(ctx, self.gameViewDims);
       });
 
@@ -102,10 +104,12 @@
       var self = this;
 
       this.sendRequestFor('canvasContext', 'fg1').soICan(function(ctx) {
+        ctx.canvas.width = ctx.canvas.width;
         self.gorillas.renderRound('fg1', ctx, pM.payload);
       });
 
       this.sendRequestFor('canvasContext', 'fg2').soICan(function(ctx) {
+        ctx.canvas.width = ctx.canvas.width;
         self.gorillas.renderRound('fg2', ctx, pM.payload);
       });
     }
