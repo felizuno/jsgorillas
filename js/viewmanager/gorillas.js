@@ -45,17 +45,47 @@
     },
 
     renderSky: function(ctx) {
-      this.sendRequestFor('gameDims').soICan(function(dims) {
-      ctx.fillStyle = 'lightblue';
-      ctx.fillRect(0, 0, dims.width, dims.height);
-      ctx.fillStyle = 'yellow';
-      ctx.beginPath();
-      ctx.arc((dims.width / 2), 100, 75, 0, 2 * Math.PI);
-      ctx.closePath();
-      ctx.fill(); 
-      ctx.globalCompositeOperation = 'source-over';
+      var self = this;
+      var start = Date.now();
 
+      this.sendRequestFor('gameDims').soICan(function(dims) {
+        ctx.fillStyle = 'lightblue';
+        ctx.fillRect(0, 0, dims.width, dims.height);
+
+        ctx.fillStyle = 'yellow';
+        ctx.beginPath();
+        ctx.arc((dims.width / 2), 100, 75, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill(); 
+        ctx.globalCompositeOperation = 'source-over';
+
+        // Planes
+        var xPos = 0;
+        var step = function(timestamp) {
+          var progress = timestamp - start;
+          xPos += 20;
+          ctx.fillStyle = 'red';
+          ctx.fillRect(xPos, 300, 100, 20);
+          // debugger;
+          //if (progress < hangTime * 1000 || true) { //TODO should cut this off at the edges of the canvas
+          if (xPos < dims.width) {
+            requestAnimationFrame(step);
+          }
+
+          setTimeout(function() {
+            requestAnimationFrame(function() {
+              ctx.fillStyle = 'lightblue';
+              ctx.fillRect(xPos - 100, 300, 100, 20);
+            });
+          }, 12);
+        };
+
+        setInterval(function() {
+          xPos = 0
+          requestAnimationFrame(step);
+        }, 4000);
       });
+
     },
 
     renderSkyline: function(ctx, skyline, alpha) {
