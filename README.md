@@ -7,19 +7,11 @@ An experiment using the Gorillas game
 
 ### Now
 
-* On touchend, calculate the theta and velocity for the throw
-** Turn that into a throw object
-* Animate the throw
-* Detect when the throw hits
-* Explosion
-* Who won?
-* New Round
-* Allow a refresh of the skyline until all players agree
+* Stop using the building to position the gorilla. Reformat the round for that. The game should plan on using the layers available
+* Update gorilla drawing to be animatable
 
 ### Soon
 
-** Render city BG
-** Render city FG
 ** Choose day or night
 ** Choose a city (default Seattle for now)
 * Player character selection
