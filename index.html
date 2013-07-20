@@ -31,19 +31,22 @@
   <script src="/js/datamanager/scaryphysics.js"></script> 
 
   <script id="how-many-players-template" type="text/template">
+    <div class="message">Yo dawg, how many players you want?</div>
     <div class="playeroptions">
-      <div class="playeroption disabled">1 player</div>
-      <div class="playeroption submit" data-count="2">2 players</div>
-      <div class="playeroption disabled">4 players</div>
+      <div class="playeroption disabled">1 Player</div>
+      <div class="playeroption submit" data-count="2">2 Players</div>
+      <div class="playeroption disabled">4 Players</div>
     </div>
   </script>
   
   <script id="player-config-template" type="text/template">
+    <div class="message">Pick a better name dawg:</div>
     <input type="text" name="name" value="<%= name %>">
     <div class="playeroption submit">Done</div>
   </script>
 
   <script id="game-config-template" type="text/template">
+    <div class="message">How many buildings dawg?</div>
     <input type="text" name="buildingCount" value="<%= buildingCount %>">
     <div class="playeroption submit">Done</div>
   </script>
@@ -57,4 +60,9 @@
   <button class="reset">RESET MAP</button>
   <div class="input-panel"></div>
   <div class="game-view"></div>
+  <div class="about">
+    <div>JSGorillas</div>
+    <div>A game by Kevin Ewing, Copyright 2013</div>
+    <div>Browse the code on GitHub</div>
+  </div>
 </body>

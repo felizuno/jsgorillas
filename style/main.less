@@ -1,9 +1,14 @@
+@tennis-ball: #DF2;
+@navy: #205;
+
 html,
 body {
   overflow: hidden;
   height: 100%;
+  font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
   // background-color: #4f94dd;
-  background-color: #205;
+  background-color: #208;
+  // background-color: @tennis-ball;
 }
 .reset {
   position: absolute;
@@ -37,18 +42,25 @@ body {
   display: none;
   width: 50%;
   margin: 10% auto 0 auto;
-  border: 4px solid #4f44f3;
+  color: @navy;
+  font-size: 24px;
+  background-color: #DDD;
+  border: 4px solid #666;
   text-align: center;
-  box-shadow: 8px 8px 0 0 white;
+  box-shadow: 12px 12px 0px 0 @navy;
   z-index: 10;
+
+  .message {
+    padding: 2em;
+  }
 
   .playeroption {
     display: inline-block;
-    margin: 3em 1em;
-    padding: 2em 6em;
-    border-radius: 1em;
+    margin: 1em;
+    padding: 1em 3em;
+    background-color: teal;
     cursor: pointer;
-    border: 4px solid #4fb7dd;
+    border: 4px solid @navy;
 
     &.disabled {
       color: #aaa;
@@ -56,4 +68,11 @@ body {
     }
   }
 }
+//======================
+.about {
+  text-align: center;
+  margin: 10em auto;
+  color: @tennis-ball;
+}
+
 //======================
