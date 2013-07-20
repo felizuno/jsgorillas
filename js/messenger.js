@@ -55,7 +55,7 @@
     },
 
     announce: function(message, payload) {
-      console.log(message + ' announced');
+      // console.log(message + ' announced');
       return this._pass(message, payload).to(this.findAddressFor(message));
     },
 

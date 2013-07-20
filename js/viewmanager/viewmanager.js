@@ -54,7 +54,6 @@
       var rawTemplate = $('#how-many-players-template').html();
 
       this.sendRequestFor('input', rawTemplate).soICan(function(response) {
-        console.log(response);
         self.announce('addPlayers', response.count);
       });
     },

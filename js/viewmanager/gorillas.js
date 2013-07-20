@@ -41,7 +41,6 @@
       });
 
       this.playerLocations.push(player);
-      console.log('Targets: ', this.playerLocations);
     },
 
     renderSky: function(ctx) {
@@ -83,7 +82,7 @@
         setInterval(function() {
           xPos = 0
           requestAnimationFrame(step);
-        }, 4000);
+        }, 10000);
       });
 
     },
@@ -105,7 +104,6 @@
       var self = this;
       var start = Date.now();
       var hangTime = toss.hangTime();
-      // console.log('throw from', toss.origin, hangTime);
 
       var step = function(timestamp) {
         var progress = timestamp - start;
@@ -115,17 +113,6 @@
 
         if (imgData[0] !== 0  || imgData[1] !== 0 || imgData[2] !== 0) {
           var circle = new zot.arc(pos, 50);
-          self.sendRequestFor('player', 'all').soICan(function(players) {
-            _.each(players, function(player) {
-              if (circle.intersects(player.position)) {
-                console.log('HIT!!!!', player.name);
-                self.sendRequestFor('newRound').soICan(function(newRound) {
-                  self.announce('roundChange', newRound);
-                });
-              }
-            });
-          });
-
 
           // Clear the circle
           buildingCtx.globalCompositeOperation = 'destination-out';
@@ -135,17 +122,23 @@
           buildingCtx.fill(); 
           buildingCtx.globalCompositeOperation = 'source-over';
 
+          self.sendRequestFor('player', 'all').soICan(function(players) {
+            _.each(players, function(player) {
+              if (circle.intersects(player.position.location)) {
+                console.log('HIT!!!!', player.name);
+                self.sendRequestFor('newRound').soICan(function(newRound) {
+                  self.announce('roundChange', newRound);
+                });
+              }
+            });
+          });
+
           return;
         }
 
         var width = 10;
-        // if (!self.left) {
-        //   width *= -1;
-        // }
 
         bananaCtx.fillRect(pos.x, pos.y, width, 10);
-        // debugger;
-        //if (progress < hangTime * 1000 || true) { //TODO should cut this off at the edges of the canvas
         if (pos.x > 0 && pos.x < 1900 && pos.y > -600) {
           requestAnimationFrame(step);
         }
@@ -173,16 +166,13 @@
     },
 
     _drawBuilding: function(ctx, building) {
-      // console.log('$$$$');
       // debugger;
       ctx.fillStyle = building.color;
       // ctx.fillRect(40, 40, 40, 40);
-      console.log('Building ', building.left, building.top);
       ctx.fillRect(building.left, building.top, building.width, building.height);
     },
 
     _addWindowsToBuilding: function(ctx, building) {
-      console.log('!!WINDOWS!!');
       // debugger;
       var dark = Math.round((Math.random() * 15) + 7);
       for (var i = 0; i < building.windows.length; i++) {
@@ -201,7 +191,6 @@
     _placeGorillaOnTop: function(ctx, building) {
       var self = this;
 
-      console.log('Gorilla party!');
       var x = Math.round(building.left + ((building.width - 28) / 2));
       var y = Math.round(building.top - 28);
       

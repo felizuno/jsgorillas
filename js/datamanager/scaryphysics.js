@@ -4,7 +4,6 @@
 
     simulateToss: function(config) {
       var g = this.gravity;
-      console.log('left?', (config.theta > 0));
       return {
         vX: (config.velocity * Math.cos(config.theta)),
         vY: (config.velocity * Math.sin(config.theta)),

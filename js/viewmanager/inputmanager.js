@@ -7,7 +7,6 @@
     handlers: {
       makeTouchable: 'enableTouchInput',
       registerTouchTarget: 'addTouchTarget',
-      unregisterTouchTarget: 'removeTouchTarget',
       touchTargets: 'getTouchTargets',
       input: 'queueInputRequest'      
     },
@@ -39,11 +38,6 @@
       });
 
       this.touchTargets.push(pM.payload);
-      console.log('Targets: ', this.touchTargets);
-    },
-
-    removeTouchTarget: function(pM) {
-      
     },
 
     getTouchTargets: function(pM) {
@@ -64,11 +58,9 @@
 
       _.each(e.changedTouches, function(touch) {
         var zotRect = new zot.rect(touch.clientX - 20, touch.clientY - 20, 40, 40); // TODO: Build the rect to represent the cussioned touch
-        console.log('Touch read as: ', zotRect);
 
         _.each(self.touchTargets, function(target) {
           if (zotRect.intersects(target.touchArea)) {
-            console.log('Gorilla!!!', target.touchArea);
             touch.origin = target.location;
             self.touchTracker.push(touch);
             return;
@@ -89,7 +81,6 @@
         var deltaY = e.clientY - tracked.clientY;
         var theta = Math.atan(deltaY / deltaX);
         var velocity = (Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) / 5); // Magic Number 5
-        console.log('Theta', theta, 'Velocity', velocity);
 
         this.announce('respondToTouch', {
           theta: theta,
