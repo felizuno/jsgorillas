@@ -1,6 +1,9 @@
 (function() {
   
   App.dataManager.gameManager.gorillas = {
+    children: [],
+    handlers: {},
+
     makeSkyline: function(screenWidth, howMany) {
       var buildingWidth = screenWidth / howMany;
       var buildings = [];
@@ -34,38 +37,44 @@
           }
         }
 
-        var gorillaTouchWidth = 40;  // replace later
-        var gorillaTouchHeight = 40; // replace later
-        var gorillaTouchLeft = Math.round(building.left + ((building.width - gorillaTouchWidth) / 2));
-        var gorillaTouchTop = Math.round((building.top + 14) - (gorillaTouchHeight / 2));
-
-        if (howMany > 3) {
-          // TODO: Accomodate more than 2 players
-          if (i === 1 || i === (howMany - 2)) {
-            building.gorilla = {
-              who: (i > (howMany / 2)) ? 1 : 0, // TODO: Move this somewhere better
-              img: 'img/gorilla-left.png',
-              location: new zot.rect(building.left + ((building.width / 2) - 14), (building.top - 28), 28, 28),
-              touchArea: new zot.rect(gorillaTouchLeft, gorillaTouchTop, gorillaTouchWidth, gorillaTouchHeight),
-              left: (i === 1)
-            };
-          }
-        } else { // howMany = 3 (< 3 not allowed up top)
-          if (i === 0 || i === 2) {
-            building.gorilla = {
-              who: 2, // TODO: Move this somewhere better
-              img: 'img/gorilla-left.png',
-              location: new zot.rect(building.left + ((building.width / 2) - 14), (building.top - 28), 28, 28),
-              touchArea: new zot.rect(gorillaTouchLeft, gorillaTouchTop, gorillaTouchWidth, gorillaTouchHeight),
-              left: (i === 0)
-            };
-          }
-        }
-
         buildings.push(building);
       });
 
+      this.updatePlayerPositions(buildings);
       return buildings;
+    },
+
+    updatePlayerPositions: function(skyline) {
+      var positions = [];
+      _.each(skyline, function(building, index) {
+        if (index === 1 || index === (skyline.length - 2)) {
+          var gorillaTouchWidth = 40;  // replace later
+          var gorillaTouchHeight = 40; // replace later
+          var gorillaTouchLeft = Math.round(building.left + ((building.width - gorillaTouchWidth) / 2));
+          var gorillaTouchTop = Math.round((building.top + 14) - (gorillaTouchHeight / 2));
+
+          var lr = (index === 1) ? 'left' : 'right';
+          var img = 'img/fat-gorilla-' + lr + '.png'
+          
+          var gorilla = {
+            who: (index > 3) ? 1 : 0, // TODO: Move this somewhere better
+            img: img,
+            location: new zot.rect(building.left + ((building.width / 2) - 14), (building.top - 28), 28, 28),
+            touchArea: new zot.rect(gorillaTouchLeft, gorillaTouchTop, gorillaTouchWidth, gorillaTouchHeight),
+            left: (index === 1)
+          };
+
+          positions.push(gorilla);
+
+          building.gorilla = gorilla;
+        }
+      });
+
+      this.sendRequestFor('player', 'all').soICan(function(players) {
+        _.each(players, function(player, index) {
+          player.position = positions[index];
+        });
+      });
     }
   };
 
