@@ -1,6 +1,8 @@
 jsGorillas
 ==========
 
+http://jsgorillas.appspot.com
+
 An experiment in message passing using the Gorillas game.
 
 The goal is to dogfood a new [message passing library](https://github.com/felizuno/jsgorillas/blob/master/js/messenger.js) I'm working on.
