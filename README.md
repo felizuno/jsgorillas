@@ -1,7 +1,10 @@
-jsgorillas
+jsGorillas
 ==========
 
-An experiment using the Gorillas game
+An experiment in message passing using the Gorillas game.
+
+The goal is to dogfood a new [message passing library](https://github.com/felizuno/jsgorillas/blob/master/js/messenger.js) I'm working on.
+For this reason this project's modules communicate using the `sendRequestFor(...).soICan(...)` pattern, which is verbose and in progress.
 
 ## TODO
 
