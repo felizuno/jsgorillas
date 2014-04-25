@@ -24,7 +24,9 @@
     enableTouchInput: function(pM) {
       if (!pM.payload.touchable) {
         pM.payload.$el.on('touchstart', _.bind(this.processTouchStart, this));
+        pM.payload.$el.on('mousedown', _.bind(this.processTouchStart, this));
         pM.payload.$el.on('touchend', _.bind(this.processTouchEnd, this));
+        pM.payload.$el.on('mouseup', _.bind(this.processTouchEnd, this));
         pM.payload.touchable = true;
       }
 
@@ -54,39 +56,69 @@
 
     processTouchStart: function(origEvent) {
       var self = this;
-      var e = origEvent.originalEvent;
-
-      _.each(e.changedTouches, function(touch) {
-        var zotRect = new zot.rect(touch.clientX - 20, touch.clientY - 20, 40, 40); // TODO: Build the rect to represent the cussioned touch
-
+      if (origEvent.type == 'mousedown') {
+        var zotRect = new zot.rect(origEvent.pageX - 20, origEvent.pageY - 20, 40, 40); // TODO: Build the rect to represent the cussioned touch
+        var click = origEvent;
+        console.log('click', click, self);
         _.each(self.touchTargets, function(target) {
           if (zotRect.intersects(target.touchArea)) {
-            touch.origin = target.location;
-            self.touchTracker.push(touch);
-            return;
+            click.origin = target.location;
+            self.touchTracker.push(click);
           }
         });
-      });
+      } else if (e.type == 'touchstart'){
+        var e = origEvent.originalEvent;
+        _.each(e.changedTouches, function(touch) {
+          var zotRect = new zot.rect(touch.clientX - 20, touch.clientY - 20, 40, 40); // TODO: Build the rect to represent the cussioned touch
+
+          _.each(self.touchTargets, function(target) {
+            if (zotRect.intersects(target.touchArea)) {
+              touch.origin = target.location;
+              self.touchTracker.push(touch);
+            }
+          });
+        });
+      }
     },
 
     processTouchEnd: function(origEvent) {
-      var e = origEvent.originalEvent.changedTouches[0]; // IS IT REALLY ALWAYS JUST THE ONE?
+      var e, tracked, deltaX, deltaY, theta, velocity;
 
-      var tracked = _.find(this.touchTracker, function(touch) {
-        return touch.identifier === e.identifier;
-      });
-
-      if (tracked) {
-        var deltaX = e.clientX - tracked.clientX;
-        var deltaY = e.clientY - tracked.clientY;
-        var theta = Math.atan(deltaY / deltaX);
-        var velocity = (Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) / 5); // Magic Number 5
-
-        this.announce('respondToTouch', {
-          theta: theta,
-          velocity: velocity,
-          origin: tracked.origin
+      if (origEvent.type == 'mouseup') {
+        tracked = _.find(this.touchTracker, function(click) {
+          return click.type === 'mousedown';
         });
+
+        if (tracked) {
+          deltaX = origEvent.pageX - tracked.pageX;
+          deltaY = origEvent.pageY - tracked.pageY;
+          theta = Math.atan(deltaY / deltaX);
+          velocity = (Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) / 5); // Magic Number 5
+
+          this.announce('respondToTouch', {
+            theta: theta,
+            velocity: velocity,
+            origin: tracked.origin
+          });
+        }
+      } else if (origEvent.type == 'touchend'){
+        e = origEvent.originalEvent.changedTouches[0]; // IS IT REALLY ALWAYS JUST THE ONE?
+        tracked = _.find(this.touchTracker, function(touch) {
+          return touch.identifier === e.identifier;
+        });
+
+        if (tracked) {
+          deltaX = e.clientX - tracked.clientX;
+          deltaY = e.clientY - tracked.clientY;
+          theta = Math.atan(deltaY / deltaX);
+          velocity = (Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) / 5); // Magic Number 5
+
+          this.announce('respondToTouch', {
+            theta: theta,
+            velocity: velocity,
+            origin: tracked.origin
+          });
+        }
       }
     },
 

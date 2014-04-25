@@ -23,9 +23,9 @@
 
       var runQueue = function() {
         _.each(self.animFrameQueue, function(frameFunc) {
-console.log('frame', frameFunc)
+// console.log('frame', frameFunc);
           frameFunc();
-        })
+        });
       };
 
       requestAnimationFrame(runQueue);

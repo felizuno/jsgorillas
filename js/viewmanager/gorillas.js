@@ -9,7 +9,7 @@
     handleTouch: function(pM) {
       var self = this;
       var toss = this.physics.simulateToss(pM.payload);
-      
+      console.log('Touch being handled by gorillas js');
       this.sendRequestFor('canvasContext', 'fg2').soICan(function(buildingCtx) {
         self.sendRequestFor('canvasContext', 'fg3').soICan(function(bananaCtx) {
           self.renderThrow(bananaCtx, buildingCtx, toss);
@@ -79,10 +79,10 @@
           }, 12);
         };
 
-        setInterval(function() {
-          xPos = 0
-          requestAnimationFrame(step);
-        }, 10000);
+        // setInterval(function() {
+        //   xPos = 0;
+        //   requestAnimationFrame(step);
+        // }, 10000);
       });
 
     },
@@ -94,7 +94,7 @@
 
       _.each(skyline, function(building, index) {
         self._drawBuilding(ctx, building);
-        building.gorilla ? self._placeGorillaOnTop(ctx, building) : '';
+        if (building.gorilla) self._placeGorillaOnTop(ctx, building);
       });
 
       ctx.globalAlpha = 1;
@@ -109,7 +109,8 @@
         var progress = timestamp - start;
         var pos = toss.positionAt(progress);
         var future = toss.positionAt(progress + 1);
-        var imgData = buildingCtx.getImageData(future.x, future.y, 1, 1).data;
+        debugger;
+        var imgData = buildingCtx.getImageData(future.x, future.y, 1, 1);
 
         if (imgData[0] !== 0  || imgData[1] !== 0 || imgData[2] !== 0) {
           var circle = new zot.arc(pos, 50);
