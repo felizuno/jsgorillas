@@ -59,7 +59,7 @@
       if (origEvent.type == 'mousedown') {
         var zotRect = new zot.rect(origEvent.pageX - 20, origEvent.pageY - 20, 40, 40); // TODO: Build the rect to represent the cussioned touch
         var click = origEvent;
-        console.log('click', click, self);
+        // console.log('click', click, self);
         _.each(self.touchTargets, function(target) {
           if (zotRect.intersects(target.touchArea)) {
             click.origin = target.location;
@@ -90,6 +90,9 @@
         });
 
         if (tracked) {
+          // console.log('Tracked', tracked.origin, _.indexOf(this.touchTracker, tracked), this.touchTracker.length);
+          this.touchTracker = [];
+          // console.log('Tracked2', this.touchTracker.length);
           deltaX = origEvent.pageX - tracked.pageX;
           deltaY = origEvent.pageY - tracked.pageY;
           theta = Math.atan(deltaY / deltaX);
@@ -108,6 +111,7 @@
         });
 
         if (tracked) {
+          this.touchTracker = _.without(this.touchTracker, tracked);
           deltaX = e.clientX - tracked.clientX;
           deltaY = e.clientY - tracked.clientY;
           theta = Math.atan(deltaY / deltaX);

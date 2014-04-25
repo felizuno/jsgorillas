@@ -1,6 +1,6 @@
 (function() {
   App.viewManager.gorillas.physics = {
-    gravity: .98,
+    gravity: 0.98,
 
     simulateToss: function(config) {
       var g = this.gravity;
@@ -11,18 +11,18 @@
         left: (config.theta > 0),
 
         positionAt: function (time) {
+          var x, y;
           time = time / 60;
 
           if (this.left) {
-            var x = config.origin.left - (this.vX * time);
-            var y = (this.vY * time) - (0.5 * g * (time * time)) - config.origin.top;
+            x = config.origin.left - (this.vX * time);
+            y = (this.vY * time) - (0.5 * g * (time * time)) - config.origin.top;
           } else {
-            var x = config.origin.right() + (this.vX * time);
-            var y = (-this.vY * time) - (0.5 * g * (time * time)) - config.origin.top;
-
+            x = config.origin.right() + (this.vX * time);
+            y = (-this.vY * time) - (0.5 * g * (time * time)) - config.origin.top;
           }
           // debugger;
-          //var y = (this.vY * time) - (0.5 * g * (time * time)) - config.origin.top;
+          // y = (this.vY * time) - (0.5 * g * (time * time)) - config.origin.top;
           y = Math.abs(y);
 
           return {
