@@ -53,7 +53,7 @@
 
         ctx.fillStyle = 'yellow';
         ctx.beginPath();
-        ctx.arc((dims.width / 2), 100, 75, 0, 2 * Math.PI);
+        ctx.arc((dims.width / 2), 70, 35, 0, 2 * Math.PI);
         ctx.closePath();
         ctx.fill(); 
         ctx.globalCompositeOperation = 'source-over';

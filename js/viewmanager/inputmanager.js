@@ -12,13 +12,21 @@
     },
 
     init: function() {
-      var self = this;
+      var self = this,
+          $gameView = $('.game-view'),
+          throttledUpdateTouch = _.throttle(function() {
+            self.updateRealTouchTargets(self.touchTargets, $gameView);
+          }, 200);
+
+      $(window).resize(function(){throttledUpdateTouch();});
 
       $('.reset').click(function(){
         self.sendRequestFor('newRound').soICan(function(newRound) {
           self.announce('roundChange', newRound);
         });
       });
+
+
     },
 
     enableTouchInput: function(pM) {
@@ -38,8 +46,19 @@
       this.touchTargets = _.reject(this.touchTargets, function(target) {
         return target.who === pM.payload.who;
       });
-
       this.touchTargets.push(pM.payload);
+      this.updateRealTouchTargets([pM.payload]);
+    },
+
+    updateRealTouchTargets: function(targets, $el) {
+      var self = this,
+          $el = $el || $('.game-view'),
+          newElLeft = $el.offset().left;
+
+      _.each(targets, function(target) {
+        var bump = (target.who === 0) ? 20 : -20;
+        target.touchArea.left =  newElLeft + (target.location.left - bump);
+      });
     },
 
     getTouchTargets: function(pM) {
@@ -59,7 +78,6 @@
       if (origEvent.type == 'mousedown') {
         var zotRect = new zot.rect(origEvent.pageX - 20, origEvent.pageY - 20, 40, 40); // TODO: Build the rect to represent the cussioned touch
         var click = origEvent;
-        // console.log('click', click, self);
         _.each(self.touchTargets, function(target) {
           if (zotRect.intersects(target.touchArea)) {
             click.origin = target.location;
@@ -90,9 +108,7 @@
         });
 
         if (tracked) {
-          // console.log('Tracked', tracked.origin, _.indexOf(this.touchTracker, tracked), this.touchTracker.length);
           this.touchTracker = [];
-          // console.log('Tracked2', this.touchTracker.length);
           deltaX = origEvent.pageX - tracked.pageX;
           deltaY = origEvent.pageY - tracked.pageY;
           theta = Math.atan(deltaY / deltaX);

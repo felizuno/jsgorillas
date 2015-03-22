@@ -9,8 +9,8 @@
       var buildings = [];
       // for (var i = 0; i < howMany; i++) {
       _.each(_.range(howMany), function(v, i) {
-        var height = (Math.floor(Math.random() * 300) + 100);
-        var top = 1000 - height;//canvasDims.height - height;
+        var height = (Math.floor(Math.random() * 80) + 50);
+        var top = 400 - height;//canvasDims.height - height;
         var left = buildingWidth * i;
 
         var building = new zot.rect(left, top, buildingWidth, height);
@@ -50,6 +50,8 @@
         if (index === 1 || index === (skyline.length - 2)) {
           var gorillaTouchWidth = 40;  // replace later
           var gorillaTouchHeight = 40; // replace later
+          // THESE NEED TO KNOW THE GAME DIMS
+          // THESE NEED TO CHANGE ON RESIZE();
           var gorillaTouchLeft = Math.round(building.left + ((building.width - gorillaTouchWidth) / 2));
           var gorillaTouchTop = Math.round((building.top + 14) - (gorillaTouchHeight / 2));
 
@@ -65,7 +67,6 @@
           };
 
           positions.push(gorilla);
-
           building.gorilla = gorilla;
         }
       });

@@ -20,8 +20,8 @@
       // Move the game dims stuff into an update function, and then call it on window.resize
       var $view = $('.game-view');
       this.gameViewDims = {
-        width: $view.width(),
-        height: $view.height()            
+        width: 800,
+        height: 400
       };
 
       _.each(this.children, function(childName) {
